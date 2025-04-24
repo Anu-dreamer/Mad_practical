@@ -1,0 +1,62 @@
+STEP 1: Download Flutter SDK
+Go to the official Flutter website: https://flutter.dev/docs/get-started/install
+
+Choose your operating system (Windows/Linux/macOS).
+
+Download the ZIP file.
+
+Extract it to a location like C:\src\flutter (for Windows) or /home/username/flutter (for Linux/macOS).
+
+STEP 2: Add Flutter to System Path
+Open System Environment Variables.
+
+Click on "Environment Variables" → Under System variables → Find Path → Click Edit.
+
+Add a new entry:
+
+Example (Windows): C:\src\flutter\bin
+
+Click OK and Apply.
+
+STEP 3: Install Android Studio (or Visual Studio Code)
+Download Android Studio: https://developer.android.com/studio
+
+Install it and add the Flutter and Dart plugins via Settings > Plugins.
+
+If using VS Code, install the Flutter extension and Dart extension from the Extensions tab.
+
+STEP 4: Run flutter doctor
+Open Command Prompt or Terminal and type:
+
+bash
+Copy
+Edit
+flutter doctor
+This checks:
+
+Flutter SDK
+
+Dart SDK
+
+Android Studio
+
+Android SDK
+
+Connected device
+
+Follow the suggestions if anything is missing.
+
+STEP 5: Create and Run Your First App
+bash
+Copy
+Edit
+flutter create hello_app
+cd hello_app
+flutter run
+
+You will see a demo Flutter app run on your device/emulator.
+
+You can open the lib/main.dart file and modify the code.
+
+Expected Output:
+A basic Flutter app with a counter and a "+" button appears on your emulator or connected device.
