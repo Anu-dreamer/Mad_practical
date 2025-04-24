@@ -1,0 +1,138 @@
+## **Experiment 9: Implementing Service Worker Events like `fetch`, `sync`**
+
+### **Goal**: Learn how service workers work and how they help PWAs work offline.
+
+---
+
+### ✅ **Step 1: Create Files**
+
+Create a new folder (e.g., `pwa-sw-demo`) and inside it, create two files:
+
+#### 1. `index.html`
+
+```html
+<html>
+  <head>
+    <title>SW Example</title>
+  </head>
+  <body>
+    <h1>Service Worker</h1>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("./sw.js")
+          .then((result) => {
+            console.warn("Service Worker Registered:", result);
+          })
+          .catch(function (e) {
+            console.warn("Error:", e);
+          });
+      } else {
+        console.warn("Service Worker not supported");
+      }
+    </script>
+  </body>
+</html>
+```
+
+#### 2. `sw.js`
+
+```js
+console.warn("Service Worker is ready to run");
+
+self.addEventListener('install', (event) => {
+  console.warn('Service Worker Installed');
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  console.warn('Service Worker Activated');
+});
+
+self.addEventListener('fetch', (event) => {
+  console.warn('Fetch intercepted for:', event.request.url);
+  event.respondWith(fetch(event.request));
+});
+```
+
+---
+
+### ✅ **Step 2: Run this Locally**
+
+You **can’t test this by opening `index.html` directly in the browser** (because service workers require **HTTPS or localhost**). You need a local server.
+
+#### Option 1: Use Python (if installed)
+```bash
+python -m http.server 8000
+```
+
+Then go to:
+```
+http://localhost:8000
+```
+
+#### Option 2: Use VS Code Live Server extension
+1. Install the “Live Server” extension
+2. Right-click `index.html` → Click **“Open with Live Server”**
+
+---
+
+### ✅ **Step 3: See It Working**
+
+Open browser console (`Ctrl + Shift + I → Console tab`):
+
+You’ll see logs like:
+
+- "Service Worker Registered"
+- "Service Worker is ready to run"
+- "Fetch intercepted..."
+
+When you **refresh** the page, all requests (like HTML, images, etc.) will go through the service worker.
+
+---
+
+### ✅ **Step 4: Simulate Offline Support**
+
+If you want offline access:
+
+Update your `sw.js` like this:
+
+```js
+const CACHE_NAME = 'pwa-demo-cache-v1';
+const URLS_TO_CACHE = ['index.html'];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(URLS_TO_CACHE);
+    })
+  );
+  console.log('Service Worker Installed & Cached');
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
+});
+```
+
+Now, reload the page **once with internet**. Then:
+
+1. Go to **DevTools → Application → Service Workers**
+2. Check **Offline**
+3. Refresh page → It still works = **Success!**
+
+## Final Folder Structure:
+```
+pwa-sw-demo/
+├── index.html
+└── sw.js
+```
+
+---
+
+Would you like me to help turn this into a Flutter version now, or are you continuing with the basic PWA HTML version only?
