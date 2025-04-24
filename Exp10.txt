@@ -1,0 +1,82 @@
+### **Folder Structure:*
+ecommerce-pwa/
+├── index.html
+├── style.css
+├── app.js
+└── sw.js
+---
+### **1. `index.html`**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <title>E-commerce PWA</title>
+</head>
+<body>
+  <h1>My E-commerce Shop</h1>
+  <div class="product">
+    <h2>Product 1</h2>
+    <p>Price: ₹500</p>
+    <button>Add to Cart</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+```
+
+---
+
+### **2. `style.css`**
+```css
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+  background-color: #f4f4f4;
+}
+
+.product {
+  background: white;
+  padding: 20px;
+  margin: 10px auto;
+  max-width: 300px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+```
+
+---
+
+### **3. `app.js`**
+```javascript
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(reg => console.log('Service Worker Registered!', reg))
+    .catch(err => console.warn('Error registering service worker', err));
+}
+```
+
+---
+
+### **4. `sw.js`**
+```javascript
+self.addEventListener('install', function(e) {
+  console.log('Service Worker: Installed');
+});
+
+self.addEventListener('fetch', function(e) {
+  console.log('Service Worker: Fetching', e.request.url);
+});
+```
+
+### **Now What You Do:**
+1. Go to your GitHub repo → Click **"Add file" > "Upload files"**
+2. Upload these 4 files
+3. Commit changes
+4. Go to **Settings > Pages > Source: `main` branch, root** → Save
+5. Visit the GitHub Pages link shown!
+
+Your E-commerce PWA is now live!
