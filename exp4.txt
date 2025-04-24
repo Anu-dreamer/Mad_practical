@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Flutter Bar Chart")),
+        body: Column(
+          children: [
+            Icon(Icons.star, size: 50, color: Colors.yellow),
+            Image.network('https://img.freepik.com/premium-photo/abstract-cute-star-illustration-with-isolated-background_742252-4362.jpg?w=2000', width: 100, height: 100),
+            SizedBox(height: 20),
+            Container(
+              height: 300, // Height of the chart
+              padding: EdgeInsets.all(16),
+              child: BarChart(
+                BarChartData(
+                  gridData: FlGridData(
+                    show: true,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(
+                        color: Colors.black26,
+                        strokeWidth: 1,
+                      );
+                    },
+                    getDrawingVerticalLine: (value) {
+                      return FlLine(
+                        color: Colors.black26,
+                        strokeWidth: 1,
+                      );
+                    },
+                  ),
+                  titlesData: FlTitlesData(
+                    leftTitles: SideTitles(showTitles: true, margin: 8, getTextStyles: (context, value) => TextStyle(fontSize: 12)),
+                    bottomTitles: SideTitles(showTitles: true, margin: 8, getTextStyles: (context, value) => TextStyle(fontSize: 12)),
+                  ),
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.all(color: Colors.black12, width: 1),
+                  ),
+                  barGroups: [
+                    BarChartGroupData(x: 0, barRods: [
+                      BarChartRodData(y: 8, colors: [Colors.blue], width: 20),
+                    ]),
+                    BarChartGroupData(x: 1, barRods: [
+                      BarChartRodData(y: 10, colors: [Colors.blue], width: 20),
+                    ]),
+                    BarChartGroupData(x: 2, barRods: [
+                      BarChartRodData(y: 14, colors: [Colors.blue], width: 20),
+                    ]),
+                    BarChartGroupData(x: 3, barRods: [
+                      BarChartRodData(y: 15, colors: [Colors.blue], width: 20),
+                    ]),
+                    BarChartGroupData(x: 4, barRods: [
+                      BarChartRodData(y: 13, colors: [Colors.blue], width: 20),
+                    ]),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

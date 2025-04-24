@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Flutter Full Form",
+      home: Scaffold(
+        appBar: AppBar(title: Text("Flutter Full Form")),
+        body: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: FullForm(),
+        ),
+      ),
+    );
+  }
+}
+
+class FullForm extends StatefulWidget {
+  @override
+  _FullFormState createState() => _FullFormState();
+}
+
+class _FullFormState extends State<FullForm> {
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _email = '';
+  String _password = '';
+  String _phone = '';
+  String _gender = 'Male';
+  String _country = 'India';
+
+  List<String> countries = ['India', 'USA', 'Canada', 'UK', 'Australia'];
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Form Submitted!\nName: $_name, Email: $_email'),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: ListView(
+        children: [
+          Text(
+            'Register',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 16),
+
+          // Name
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Full Name', border: OutlineInputBorder()),
+            validator: (value) => value!.isEmpty ? 'Enter your name' : null,
+            onSaved: (value) => _name = value!,
+          ),
+          SizedBox(height: 16),
+
+          // Email
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) => !value!.contains('@') ? 'Enter a valid email' : null,
+            onSaved: (value) => _email = value!,
+          ),
+          SizedBox(height: 16),
+
+          // Password
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder()),
+            obscureText: true,
+            validator: (value) => value!.length < 6 ? 'Password must be at least 6 characters' : null,
+            onSaved: (value) => _password = value!,
+          ),
+          SizedBox(height: 16),
+
+          // Phone
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Phone Number', border: OutlineInputBorder()),
+            keyboardType: TextInputType.phone,
+            validator: (value) => value!.length != 10 ? 'Enter a 10-digit phone number' : null,
+            onSaved: (value) => _phone = value!,
+          ),
+          SizedBox(height: 16),
+
+          // Gender
+          Text("Gender"),
+          Row(
+            children: [
+              Radio<String>(
+                value: 'Male',
+                groupValue: _gender,
+                onChanged: (value) => setState(() => _gender = value!),
+              ),
+              Text("Male"),
+              Radio<String>(
+                value: 'Female',
+                groupValue: _gender,
+                onChanged: (value) => setState(() => _gender = value!),
+              ),
+              Text("Female"),
+            ],
+          ),
+          SizedBox(height: 16),
+
+          // Country Dropdown
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'Country', border: OutlineInputBorder()),
+            value: _country,
+            items: countries.map((country) {
+              return DropdownMenuItem(value: country, child: Text(country));
+            }).toList(),
+            onChanged: (value) => setState(() => _country = value!),
+            onSaved: (value) => _country = value!,
+          ),
+          SizedBox(height: 24),
+
+          // Submit Button
+          ElevatedButton(
+            onPressed: _submitForm,
+            child: Text('Submit'),
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(double.infinity, 48),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

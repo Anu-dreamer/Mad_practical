@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  double _height = 100.0;
+  double _width = 100.0;
+  Color _color = Colors.blue;
+
+  void _changeProperties() {
+    setState(() {
+      _height = _height == 100.0 ? 200.0 : 100.0;
+      _width = _width == 100.0 ? 200.0 : 100.0;
+      _color = _color == Colors.blue ? Colors.red : Colors.blue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("Flutter Animation")),
+        body: Center(
+          child: AnimatedContainer(
+            duration: Duration(seconds: 1),
+            height: _height,
+            width: _width,
+            color: _color,
+            child: TextButton(
+              onPressed: _changeProperties,
+              child: Text("Change Properties"),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
